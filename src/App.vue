@@ -1,8 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 </script>
 
 <template>
+  <router-view></router-view>
   <header>
     <div class="wrapper">
       <nav>
@@ -11,7 +16,10 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
     </div>
   </header>
-
+  <el-button>12312</el-button>
+  <p>{{ userStore.token }}</p>
+  <el-button @click="userStore.setToken('123')">login</el-button>
+  <el-button @click="userStore.removeToken()">exit</el-button>
   <RouterView />
 </template>
 
