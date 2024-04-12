@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import ChannelSelect from './components/ChannelSelect.vue'
-import { artGetChannelsService, artGetListService } from '@/api/article'
+import { artGetListService } from '@/api/article'
 import { formatTime } from '@/utils/format'
 import ArticleEdit from './components/ArticleEdit.vue'
 const articleList = ref([])
@@ -60,6 +60,18 @@ const getArticleList = async () => {
 
   loading.value = false
 }
+
+const onSuccess = (type) => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
+    //更新为最大页码数
+    params.value.pagenum = lastPage
+    getArticleList()
+  } else {
+    getArticleList()
+  }
+}
+
 getArticleList()
 </script>
 
@@ -126,7 +138,7 @@ getArticleList()
       @current-change="handleCurrentChange"
     />
 
-    <article-edit ref="articleEditRef"></article-edit>
+    <article-edit ref="articleEditRef" @success="onSuccess"></article-edit>
   </page-container>
 </template>
 <style lang="scss" scoped></style>
